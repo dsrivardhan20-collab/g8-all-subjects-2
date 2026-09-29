@@ -1,0 +1,24 @@
+{
+  "name": "Interactive Telangana SCERT Learning Platform",
+  "short_name": "SCERT Class 8",
+  "description": "Interactive Telangana SCERT Class 8 English Medium 3D Learning Platform with realtime simulations, chapter tests, and certificates.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0a0f1d",
+  "theme_color": "#0f172a",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "assets/icons/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": [
+    "education",
+    "reference",
+    "science"
+  ]
+}

@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive Telangana SCERT Learning Platform - Class 8 English Medium Premium 3D Educational Platform">
+    <meta name="theme-color" content="#0f172a">
+    <title>Interactive Telangana SCERT Learning Platform — Class 8</title>
+    
+    <!-- PWA Manifest & App Icon -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="assets/icons/icon.svg">
+    
+    <!-- Google Fonts & Font Awesome Icons (with graceful offline fallbacks) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Main Style Sheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+    <!-- FULLSCREEN 3D BACKGROUND CANVAS -->
+    <canvas id="bg-3d-canvas"></canvas>
+    <div id="bg-readability-overlay"></div>
+
+    <!-- =========================================================================
+         1. MAGIC 3D OPENING SCREEN
+         ========================================================================= -->
+    <div id="opening-screen" class="opening-screen">
+        <canvas id="opening-canvas"></canvas>
+        <div class="opening-content">
+            <!-- 3D Book Container -->
+            <div class="opening-book-stage">
+                <div class="opening-book" id="opening-book">
+                    <div class="book-cover-back"></div>
+                    <div class="book-pages">
+                        <div class="book-page page-1"></div>
+                        <div class="book-page page-2"></div>
+                        <div class="book-page page-3"></div>
+                    </div>
+                    <div class="book-cover-front">
+                        <div class="cover-emblem">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <div class="cover-title">TELANGANA SCERT</div>
+                        <div class="cover-sub">CLASS 8</div>
+                    </div>
+                    <div class="book-light-beam"></div>
+                </div>
+            </div>
+
+            <!-- Floating 3D Runes / Emblems -->
+            <div class="floating-glyphs">
+                <span class="glyph g1"><i class="fa-solid fa-atom"></i></span>
+                <span class="glyph g2"><i class="fa-solid fa-earth-americas"></i></span>
+                <span class="glyph g3"><i class="fa-solid fa-dna"></i></span>
+                <span class="glyph g4"><i class="fa-solid fa-calculator"></i></span>
+                <span class="glyph g5"><i class="fa-solid fa-feather-pointed"></i></span>
+                <span class="glyph g6"><i class="fa-solid fa-bolt"></i></span>
+                <span class="glyph g7">π</span>
+                <span class="glyph g8">E=mc²</span>
+            </div>
+
+            <!-- Title & Enter CTA -->
+            <div class="opening-titles">
+                <div class="opening-badge">TELANGANA SCERT — CLASS 8</div>
+                <h1 class="opening-main-title">INTERACTIVE TELANGANA SCERT LEARNING PLATFORM</h1>
+                <p class="opening-tagline">A Premium 3D Digital Textbook + Interactive Museum + Learning Game</p>
+                <div class="opening-actions">
+                    <button id="btn-enter-world" class="btn-3d-gold">
+                        <span><i class="fa-solid fa-compass"></i> EXPLORE 3D LEARNING WORLD</span>
+                    </button>
+                    <button id="btn-skip-intro" class="btn-ghost">
+                        <span>Skip Intro <i class="fa-solid fa-forward"></i></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================================
+         2. MAIN APPLICATION HEADER BAR
+         ========================================================================= -->
+    <header id="main-header" class="main-header">
+        <div class="header-left">
+            <button id="btn-dashboard-home" class="logo-btn" title="Back to Dashboard">
+                <div class="logo-emblem">
+                    <i class="fa-solid fa-shapes"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="brand-title">Interactive Telangana SCERT</span>
+                    <span class="brand-sub">Class 8 • English Medium</span>
+                </div>
+            </button>
+        </div>
+
+        <!-- Quick Navigation Breadcrumbs -->
+        <nav class="header-center">
+            <div class="breadcrumb-nav">
+                <button id="bc-subject" class="bc-item">
+                    <i class="fa-solid fa-earth-americas"></i> <span id="bc-subj-text">Social Studies</span>
+                </button>
+                <span class="bc-sep"><i class="fa-solid fa-chevron-right"></i></span>
+                <button id="bc-chapter" class="bc-item">
+                    <span id="bc-chap-text">Ch 1: Reading and Analysis of Maps</span>
+                </button>
+                <span class="bc-sep"><i class="fa-solid fa-chevron-right"></i></span>
+                <button id="bc-topic" class="bc-item">
+                    <span id="bc-topic-text">Maps Down the Ages</span>
+                </button>
+            </div>
+        </nav>
+
+        <div class="header-right">
+            <!-- Global Search -->
+            <button id="btn-global-search" class="header-icon-btn" title="Search Curriculum (Ctrl+K)">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+
+            <!-- Audio Effects Toggle -->
+            <button id="btn-audio-toggle" class="header-icon-btn" title="Toggle Sound FX">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+
+            <!-- Performance Mode Toggle -->
+            <button id="btn-perf-toggle" class="header-icon-btn" title="Performance Mode (Reduces 3D particles for low-end devices)">
+                <i class="fa-solid fa-gauge-high"></i>
+            </button>
+
+            <!-- Theme Switch (Light/Dark) -->
+            <button id="btn-theme-toggle" class="header-icon-btn" title="Switch Theme (Light/Dark)">
+                <i class="fa-solid fa-sun"></i>
+            </button>
+
+            <!-- Progress / Student Profile -->
+            <button id="btn-student-profile" class="header-profile-btn" title="Student Profile & Progress">
+                <div class="profile-avatar"><i class="fa-solid fa-user-graduate"></i></div>
+                <span id="header-student-name">Student</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- =========================================================================
+         3. MAIN APP VIEW CONTAINER (SINGLE PAGE ARCHITECTURE)
+         ========================================================================= -->
+    <main id="app-container" class="app-container">
+
+        <!-- VIEW 1: MAIN DASHBOARD -->
+        <section id="view-dashboard" class="app-view active">
+            <div class="dashboard-hero">
+                <div class="hero-text-block">
+                    <div class="hero-tag"><span>TELANGANA SCERT CLASS 8</span></div>
+                    <h1 class="hero-heading">Welcome to the 3D Educational World</h1>
+                    <p class="hero-desc">Explore verified Telangana SCERT English Medium curriculum with interactive 3D simulations, paragraph-wise mastery, quizzes, flashcards, and official certificates.</p>
+                </div>
+                
+                <!-- Continue Learning Widget -->
+                <div class="continue-card-3d">
+                    <div class="continue-badge"><i class="fa-solid fa-clock-rotate-left"></i> CONTINUE LEARNING</div>
+                    <div class="continue-info">
+                        <span id="cont-subj" class="cont-subj">Social Studies</span>
+                        <h3 id="cont-title" class="cont-title">Ch 1: Reading and Analysis of Maps</h3>
+                        <p id="cont-topic" class="cont-topic">Topic 1: Maps Down the Ages</p>
+                    </div>
+                    <button id="btn-continue-now" class="btn-3d-cyan">
+                        <span>RESUME <i class="fa-solid fa-arrow-right"></i></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Subject Cards Matrix (6 Subjects) -->
+            <div class="section-header">
+                <h2><i class="fa-solid fa-layer-group"></i> Class 8 Subjects</h2>
+                <p>Select any subject to enter its dedicated 3D educational environment</p>
+            </div>
+
+            <div class="subjects-grid">
+                <!-- Subject 1: Social Studies -->
+                <div class="subject-card-3d active" data-subject="social-studies">
+                    <div class="card-glow"></div>
+                    <div class="card-icon-wrap ss-theme"><i class="fa-solid fa-earth-americas"></i></div>
+                    <div class="card-body">
+                        <span class="subj-code">CLASS 8 • GEOGRAPHY & HISTORY</span>
+                        <h3 class="subj-name">SOCIAL STUDIES</h3>
+                        <p class="subj-desc">Reading of Maps, Solar Insolation, Earth Movements, Forests, Minerals, and the Nizam Era.</p>
+                        <div class="subj-footer">
+                            <span class="chap-count"><i class="fa-solid fa-book-open"></i> 10 Chapters</span>
+                            <span class="open-link">Open World <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subject 2: Physical Sciences -->
+                <div class="subject-card-3d" data-subject="physical-sciences">
+                    <div class="card-glow"></div>
+                    <div class="card-icon-wrap ps-theme"><i class="fa-solid fa-bolt"></i></div>
+                    <div class="card-body">
+                        <span class="subj-code">CLASS 8 • PHYSICS & CHEMISTRY</span>
+                        <h3 class="subj-name">PHYSICAL SCIENCES</h3>
+                        <p class="subj-desc">Force Vectors, Friction Asperities, Synthetic Plastics, Metals, Sound Waves, and Light Reflection.</p>
+                        <div class="subj-footer">
+                            <span class="chap-count"><i class="fa-solid fa-book-open"></i> 10 Chapters</span>
+                            <span class="open-link">Open World <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subject 3: Biology -->
+                <div class="subject-card-3d" data-subject="biology">
+                    <div class="card-glow"></div>
+                    <div class="card-icon-wrap bio-theme"><i class="fa-solid fa-dna"></i></div>
+                    <div class="card-body">
+                        <span class="subj-code">CLASS 8 • LIFE SCIENCES</span>
+                        <h3 class="subj-name">BIOLOGY</h3>
+                        <p class="subj-desc">Cell Organelles, Microorganisms, Reproduction Cycles, Adolescence Hormones, and Biodiversity.</p>
+                        <div class="subj-footer">
+                            <span class="chap-count"><i class="fa-solid fa-book-open"></i> 10 Chapters</span>
+                            <span class="open-link">Open World <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subject 4: Mathematics -->
+                <div class="subject-card-3d" data-subject="mathematics">
+                    <div class="card-glow"></div>
+                    <div class="card-icon-wrap math-theme"><i class="fa-solid fa-calculator"></i></div>
+                    <div class="card-body">
+                        <span class="subj-code">CLASS 8 • MATHEMATICS</span>
+                        <h3 class="subj-name">MATHEMATICS</h3>
+                        <p class="subj-desc">Rational Numbers, Linear Equations, Quadrilateral Nets, Exponents, and Euler's Polyhedra Formula.</p>
+                        <div class="subj-footer">
+                            <span class="chap-count"><i class="fa-solid fa-book-open"></i> 10 Chapters</span>
+                            <span class="open-link">Open World <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subject 5: Science (Integrated) -->
+                <div class="subject-card-3d" data-subject="science">
+                    <div class="card-glow"></div>
+                    <div class="card-icon-wrap sci-theme"><i class="fa-solid fa-flask-vial"></i></div>
+                    <div class="card-body">
+                        <span class="subj-code">CLASS 8 • INTEGRATED SCIENCE</span>
+                        <h3 class="subj-name">SCIENCE</h3>
+                        <p class="subj-desc">Core Physical & Biological Fundamentals: Force Dynamics, Cell Anatomy, Electrochemistry & Ecology.</p>
+                        <div class="subj-footer">
+                            <span class="chap-count"><i class="fa-solid fa-book-open"></i> 10 Chapters</span>
+                            <span class="open-link">Open World <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subject 6: English -->
+                <div class="subject-card-3d" data-subject="english">
+                    <div class="card-glow"></div>
+                    <div class="card-icon-wrap eng-theme"><i class="fa-solid fa-feather-pointed"></i></div>
+                    <div class="card-body">
+                        <span class="subj-code">CLASS 8 • OUR WORLD THROUGH ENGLISH</span>
+                        <h3 class="subj-name">ENGLISH</h3>
+                        <p class="subj-desc">Personality Development (Nick Vujicic), Social Issues, The Selfish Giant, Grammar & Vocabulary.</p>
+                        <div class="subj-footer">
+                            <span class="chap-count"><i class="fa-solid fa-book-open"></i> 10 Units</span>
+                            <span class="open-link">Open World <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Action Hub -->
+            <div class="dashboard-hub-grid">
+                <div class="hub-card" id="hub-progress-card">
+                    <div class="hub-icon"><i class="fa-solid fa-chart-pie"></i></div>
+                    <div class="hub-content">
+                        <h4>My Progress Matrix</h4>
+                        <p>Track your topic completion, quiz scores, and study streaks.</p>
+                    </div>
+                </div>
+                <div class="hub-card" id="hub-exam-card">
+                    <div class="hub-icon"><i class="fa-solid fa-file-signature"></i></div>
+                    <div class="hub-content">
+                        <h4>20-Question Final Tests</h4>
+                        <p>Test your comprehensive chapter knowledge and unlock certificates.</p>
+                    </div>
+                </div>
+                <div class="hub-card" id="hub-cert-card">
+                    <div class="hub-icon"><i class="fa-solid fa-award"></i></div>
+                    <div class="hub-content">
+                        <h4>Earned Certificates</h4>
+                        <p>View, print, and download your official SCERT Class 8 certificates.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 2: CHAPTER SELECTION / BROWSER VIEW -->
+        <section id="view-chapter-browser" class="app-view">
+            <div class="chapter-browser-header">
+                <button id="btn-back-to-dashboard" class="btn-back">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Subjects
+                </button>
+                <div class="browser-subj-meta">
+                    <span id="browser-subj-badge" class="badge-subj">Social Studies</span>
+                    <h2 id="browser-subj-title">Social Studies — Class 8 Curriculum</h2>
+                    <p id="browser-subj-desc">Explore diversity on the Earth, map projections, solar insolation, natural resources, and historical transformations.</p>
+                </div>
+            </div>
+
+            <!-- Chapter Cards Container -->
+            <div id="chapters-list-container" class="chapters-grid">
+                <!-- Dynamically Populated by script.js -->
+            </div>
+        </section>
+
+        <!-- VIEW 3: 3D READING MODE & LEARNING EXPERIENCE (SPLIT SCREEN) -->
+        <section id="view-learning" class="app-view">
+            <!-- Learning Navigation Top Bar -->
+            <div class="learning-top-bar">
+                <div class="top-bar-left">
+                    <button id="btn-back-to-chapters" class="btn-ghost-sm">
+                        <i class="fa-solid fa-arrow-left"></i> Chapters
+                    </button>
+                    <div class="current-topic-badge">
+                        <span id="learn-chap-label" class="chap-label">Chapter 1</span>
+                        <h2 id="learn-topic-title" class="topic-title">Maps Down the Ages</h2>
+                    </div>
+                </div>
+
+                <div class="top-bar-center">
+                    <!-- 5-Step Learning Flow Path -->
+                    <div class="learning-flow-nav">
+                        <button class="flow-step-btn active" data-tab="read">
+                            <span class="step-num">1</span> <span class="step-label">READ</span>
+                        </button>
+                        <button class="flow-step-btn" data-tab="watch">
+                            <span class="step-num">2</span> <span class="step-label">WATCH</span>
+                        </button>
+                        <button class="flow-step-btn" data-tab="explore">
+                            <span class="step-num">3</span> <span class="step-label">EXPLORE</span>
+                        </button>
+                        <button class="flow-step-btn" data-tab="practice">
+                            <span class="step-num">4</span> <span class="step-label">PRACTICE</span>
+                        </button>
+                        <button class="flow-step-btn" data-tab="revise">
+                            <span class="step-num">5</span> <span class="step-label">REVISE</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="top-bar-right">
+                    <!-- Chapter Final Test Shortcut -->
+                    <button id="btn-open-chapter-exam" class="btn-exam-pill" title="Take 20-Question Final Chapter Test">
+                        <i class="fa-solid fa-award"></i> FINAL TEST (20Q)
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 1: READ (SPLIT SCREEN: TEXTBOOK ON LEFT, 3D VISUAL ON RIGHT) -->
+            <div id="tab-read" class="learning-sub-view active">
+                <div class="split-screen-layout">
+                    <!-- LEFT COLUMN: TEXTBOOK LESSON & EXPLANATIONS -->
+                    <div class="learning-content-column" id="learning-content-scroll">
+                        <!-- Paragraph-Wise Learning Engine -->
+                        <div id="paragraph-learning-container" class="paragraph-flow-container">
+                            <!-- Populated dynamically with Textbook Idea + Easy Explanation right below it -->
+                        </div>
+
+                        <!-- Real-Life Example Box -->
+                        <div id="box-real-life" class="info-card emerald-card">
+                            <div class="card-tag"><i class="fa-solid fa-leaf"></i> REAL-LIFE APPLICATION</div>
+                            <h4 id="real-life-title">Everyday Example</h4>
+                            <p id="real-life-text"></p>
+                        </div>
+
+                        <!-- Remember Box -->
+                        <div id="box-remember" class="info-card amber-card">
+                            <div class="card-tag"><i class="fa-solid fa-lightbulb"></i> REMEMBER BOX</div>
+                            <h4 id="remember-title">Essential Takeaway</h4>
+                            <p id="remember-text"></p>
+                        </div>
+
+                        <!-- Fun Fact Box -->
+                        <div id="box-fun-fact" class="info-card purple-card">
+                            <div class="card-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> FUN FACT</div>
+                            <h4 id="fun-fact-title">Did You Know?</h4>
+                            <p id="fun-fact-text"></p>
+                        </div>
+
+                        <!-- Vocabulary Grid -->
+                        <div id="box-vocabulary" class="vocab-container-card">
+                            <div class="card-tag"><i class="fa-solid fa-book"></i> TOPIC VOCABULARY</div>
+                            <div id="vocab-grid-list" class="vocab-grid"></div>
+                        </div>
+
+                        <!-- 5-Point Mini Summary -->
+                        <div id="box-summary" class="summary-card">
+                            <div class="card-tag"><i class="fa-solid fa-list-check"></i> 5-POINT MINI SUMMARY</div>
+                            <ol id="summary-points-list" class="summary-list"></ol>
+                        </div>
+
+                        <!-- Compare & Connect Table (A vs B) -->
+                        <div id="box-comparison" class="comparison-card-3d">
+                            <div class="card-tag"><i class="fa-solid fa-code-compare"></i> COMPARE & CONNECT</div>
+                            <h4 id="comp-table-title">Concept Comparison</h4>
+                            <div class="table-responsive">
+                                <table id="comp-table" class="comp-table">
+                                    <thead><tr id="comp-thead-row"></tr></thead>
+                                    <tbody id="comp-tbody"></tbody>
+                                </table>
+                            </div>
+                            <div id="comp-vs-summary" class="vs-highlight-box"></div>
+                        </div>
+
+                        <!-- Bloom's Taxonomy Challenge Zone -->
+                        <div id="box-blooms" class="blooms-card">
+                            <div class="card-tag"><i class="fa-solid fa-brain"></i> BLOOM'S TAXONOMY CHALLENGE ZONE</div>
+                            <div id="blooms-questions-list" class="blooms-list"></div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT COLUMN: DEDICATED 3D LEARNING VISUAL (INTERACTIVE & REACTIVE) -->
+                    <div class="learning-visual-column">
+                        <div class="visual-viewport-card" id="visual-viewport-card">
+                            <div class="viewport-header">
+                                <div class="vp-indicator">
+                                    <span class="live-dot"></span>
+                                    <span id="vp-scene-title">3D Learning Visual</span>
+                                </div>
+                                <div class="vp-tools">
+                                    <button id="btn-3d-rotate" class="tool-btn active" title="Toggle Auto-Spin"><i class="fa-solid fa-arrows-rotate"></i></button>
+                                    <button id="btn-3d-reset" class="tool-btn" title="Reset Camera View"><i class="fa-solid fa-camera-rotate"></i></button>
+                                    <button id="btn-3d-fullscreen" class="tool-btn" title="Fullscreen 3D"><i class="fa-solid fa-expand"></i></button>
+                                </div>
+                            </div>
+
+                            <!-- 3D Canvas Viewport -->
+                            <div class="canvas-3d-wrapper" id="canvas-3d-wrapper">
+                                <canvas id="learning-3d-canvas"></canvas>
+                                <!-- Interactive UI Overlay on 3D Canvas -->
+                                <div id="canvas-3d-controls-overlay" class="canvas-controls-overlay"></div>
+                            </div>
+
+                            <!-- Synchronized Concept Phase Indicator -->
+                            <div class="viewport-footer">
+                                <span class="sync-label"><i class="fa-solid fa-link"></i> Synchronized to active reading paragraph:</span>
+                                <div id="phase-pills-row" class="phase-pills"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: WATCH (STEP-BY-STEP 3D WALKTHROUGH WITH NARRATION) -->
+            <div id="tab-watch" class="learning-sub-view">
+                <div class="watch-container">
+                    <div class="watch-header">
+                        <h3><i class="fa-solid fa-video"></i> 3D Cinematic Concept Walkthrough</h3>
+                        <p>Watch step-by-step visual demonstrations explaining core scientific and geographical processes.</p>
+                    </div>
+                    <div class="watch-viewport-card">
+                        <div class="watch-canvas-wrap">
+                            <canvas id="watch-3d-canvas"></canvas>
+                        </div>
+                        <div class="watch-controls">
+                            <button id="btn-watch-play" class="btn-play-pause"><i class="fa-solid fa-play"></i> Play</button>
+                            <input type="range" id="watch-timeline-slider" min="0" max="100" value="0" class="watch-slider">
+                            <div id="watch-step-description" class="watch-narration">Stage 1: Initial State</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: EXPLORE (HANDS-ON VIRTUAL LABORATORY SIMULATOR) -->
+            <div id="tab-explore" class="learning-sub-view">
+                <div class="explore-container">
+                    <div class="explore-header">
+                        <h3><i class="fa-solid fa-flask"></i> Interactive 3D Virtual Laboratory</h3>
+                        <p>Adjust parameters, test hypotheses, manipulate force vectors, and observe real-time scientific responses.</p>
+                    </div>
+                    <div class="explore-workspace">
+                        <div class="explore-canvas-wrap">
+                            <canvas id="explore-3d-canvas"></canvas>
+                        </div>
+                        <div id="explore-parameter-panel" class="explore-controls-panel">
+                            <!-- Dynamic Sliders & Toggles based on Active Topic -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: PRACTICE (EXACTLY 5 TOPIC QUIZ QUESTIONS WITH INSTANT FEEDBACK) -->
+            <div id="tab-practice" class="learning-sub-view">
+                <div class="practice-quiz-wrapper">
+                    <div class="quiz-header-card">
+                        <div class="quiz-meta">
+                            <span class="quiz-badge">TOPIC PRACTICE QUIZ</span>
+                            <h3>Test Your Understanding</h3>
+                            <p>Answer exactly 5 questions with instant grading, explanations, and score tracking.</p>
+                        </div>
+                        <div class="quiz-score-meter">
+                            <div class="score-circle">
+                                <span id="quiz-live-score">0 / 5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5 Questions Container -->
+                    <div id="quiz-questions-list" class="quiz-list">
+                        <!-- Populated by script.js with instant Correct/Wrong feedback -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: REVISE (INTERACTIVE 3D FLIP FLASHCARDS & REVISION CHEATSHEET) -->
+            <div id="tab-revise" class="learning-sub-view">
+                <div class="revise-container">
+                    <div class="revise-header">
+                        <h3><i class="fa-solid fa-layer-group"></i> Interactive 3D Flashcards</h3>
+                        <p>Click any card to flip and reveal the concise textbook answer. Mark cards as Known or Review Again.</p>
+                    </div>
+
+                    <div class="flashcard-deck-stage">
+                        <div class="flashcard-3d" id="active-flashcard">
+                            <div class="card-inner">
+                                <div class="card-face card-front">
+                                    <div class="fc-badge">QUESTION <span id="fc-counter">1 / 5</span></div>
+                                    <div class="fc-content" id="fc-question-text">Loading question...</div>
+                                    <div class="fc-hint"><i class="fa-solid fa-rotate"></i> Click or tap card to flip</div>
+                                </div>
+                                <div class="card-face card-back">
+                                    <div class="fc-badge">ANSWER</div>
+                                    <div class="fc-content" id="fc-answer-text">Loading answer...</div>
+                                    <div class="fc-hint"><i class="fa-solid fa-check"></i> Tap card to flip back</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flashcard Controls -->
+                        <div class="flashcard-controls">
+                            <button id="btn-fc-prev" class="btn-fc-nav"><i class="fa-solid fa-chevron-left"></i> Previous</button>
+                            <button id="btn-fc-shuffle" class="btn-fc-action"><i class="fa-solid fa-shuffle"></i> Shuffle</button>
+                            <button id="btn-fc-known" class="btn-fc-status known"><i class="fa-solid fa-check"></i> Known</button>
+                            <button id="btn-fc-review" class="btn-fc-status review"><i class="fa-solid fa-clock-rotate-left"></i> Review Again</button>
+                            <button id="btn-fc-next" class="btn-fc-nav">Next <i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 4: CHAPTER FINAL TEST (20 QUESTIONS) -->
+        <section id="view-final-test" class="app-view">
+            <div class="final-test-container">
+                <!-- Test Header Bar -->
+                <div class="test-header-bar">
+                    <div class="test-header-left">
+                        <button id="btn-exit-exam" class="btn-ghost-sm"><i class="fa-solid fa-xmark"></i> Exit Test</button>
+                        <div>
+                            <span id="exam-subj-badge" class="badge-subj">Social Studies</span>
+                            <h2 id="exam-chap-title">Chapter 1 Examination</h2>
+                        </div>
+                    </div>
+                    <div class="test-header-right">
+                        <div class="exam-timer-box">
+                            <i class="fa-solid fa-stopwatch"></i>
+                            <span id="exam-timer-display">20:00</span>
+                        </div>
+                        <button id="btn-submit-exam" class="btn-submit-test">
+                            <span><i class="fa-solid fa-paper-plane"></i> Submit Test</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Test Body: Question Card on Left, Question Palette on Right -->
+                <div class="test-body-grid">
+                    <!-- Left: Active Question Card -->
+                    <div class="exam-question-card">
+                        <div class="exam-q-header">
+                            <span class="q-number" id="exam-q-number">Question 1 of 20</span>
+                            <button id="btn-flag-review" class="btn-flag"><i class="fa-regular fa-bookmark"></i> Mark for Review</button>
+                        </div>
+                        <div class="exam-q-text" id="exam-q-text">Loading question text...</div>
+                        
+                        <div class="exam-options-grid" id="exam-options-container">
+                            <!-- 4 3D Option Buttons -->
+                        </div>
+
+                        <div class="exam-q-footer">
+                            <button id="btn-exam-prev" class="btn-nav"><i class="fa-solid fa-arrow-left"></i> Previous</button>
+                            <button id="btn-exam-clear" class="btn-ghost-sm">Clear Answer</button>
+                            <button id="btn-exam-next" class="btn-nav">Next <i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Question Palette Grid (1 to 20) -->
+                    <div class="exam-palette-card">
+                        <h4>Question Palette</h4>
+                        <div class="palette-legend">
+                            <span class="legend-item"><span class="leg-box answered"></span> Answered</span>
+                            <span class="legend-item"><span class="leg-box current"></span> Current</span>
+                            <span class="legend-item"><span class="leg-box flagged"></span> Flagged</span>
+                            <span class="legend-item"><span class="leg-box unvisited"></span> Unvisited</span>
+                        </div>
+                        <div class="palette-grid" id="exam-palette-grid">
+                            <!-- 20 Question Bubbles -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 5: TEST RESULTS & SCORE ANALYSIS -->
+        <section id="view-exam-results" class="app-view">
+            <div class="results-container">
+                <div class="results-hero-card">
+                    <div class="results-badge" id="results-status-badge">EXAM COMPLETED</div>
+                    <h2 id="results-headline">Your Examination Results</h2>
+                    
+                    <div class="score-summary-row">
+                        <div class="score-metric">
+                            <span class="metric-label">Total Score</span>
+                            <span class="metric-value" id="res-score-val">18 / 20</span>
+                        </div>
+                        <div class="score-metric">
+                            <span class="metric-label">Percentage</span>
+                            <span class="metric-value" id="res-pct-val">90%</span>
+                        </div>
+                        <div class="score-metric">
+                            <span class="metric-label">Status</span>
+                            <span class="metric-value status-pass" id="res-pass-val">DISTINCTION</span>
+                        </div>
+                    </div>
+
+                    <div class="results-actions">
+                        <button id="btn-claim-certificate" class="btn-3d-gold hide">
+                            <i class="fa-solid fa-award"></i> View Official SCERT Certificate
+                        </button>
+                        <button id="btn-retake-exam" class="btn-ghost">
+                            <i class="fa-solid fa-rotate-right"></i> Retake Test
+                        </button>
+                        <button id="btn-results-to-dashboard" class="btn-3d-cyan">
+                            <i class="fa-solid fa-house"></i> Return to Dashboard
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Detailed Question Review with Explanations -->
+                <div class="results-review-section">
+                    <h3><i class="fa-solid fa-clipboard-check"></i> Comprehensive Question Review</h3>
+                    <p>Review each question, your selected option, the correct answer, and detailed textbook explanations.</p>
+                    <div id="exam-review-list" class="review-items-list">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 6: CERTIFICATE MODAL / VIEW (ABOVE 80% SCORE) -->
+        <section id="view-certificate" class="app-view">
+            <div class="cert-view-container">
+                <div class="cert-toolbar">
+                    <button id="btn-close-cert" class="btn-ghost-sm"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <button id="btn-print-cert" class="btn-3d-gold"><i class="fa-solid fa-print"></i> Print / Save Certificate (PDF)</button>
+                </div>
+
+                <!-- Printable Premium SCERT Certificate -->
+                <div class="certificate-frame" id="printable-certificate">
+                    <div class="cert-outer-border">
+                        <div class="cert-inner-border">
+                            <!-- Official Decorative Corner Ornaments -->
+                            <div class="corner-ornament top-left"></div>
+                            <div class="corner-ornament top-right"></div>
+                            <div class="corner-ornament bottom-left"></div>
+                            <div class="corner-ornament bottom-right"></div>
+
+                            <!-- Header -->
+                            <div class="cert-header">
+                                <div class="cert-seal">
+                                    <i class="fa-solid fa-graduation-cap"></i>
+                                </div>
+                                <div class="cert-dept">STATE COUNCIL OF EDUCATIONAL RESEARCH & TRAINING</div>
+                                <h1 class="cert-title">TELANGANA SCERT CLASS 8 LEARNING CERTIFICATE</h1>
+                                <div class="cert-subtitle">Certificate of Academic Excellence & Concept Mastery</div>
+                            </div>
+
+                            <!-- Cert Body -->
+                            <div class="cert-body">
+                                <p class="cert-presented">This prestigious certificate is proudly presented to</p>
+                                <h2 class="cert-student-name" id="cert-student-name">STUDENT NAME</h2>
+                                <p class="cert-statement">
+                                    for successfully mastering the curriculum and achieving an outstanding score in the Class 8 English Medium examination for:
+                                </p>
+                                <div class="cert-subject-box">
+                                    <span class="cert-subj" id="cert-subject-name">SOCIAL STUDIES</span>
+                                    <span class="cert-chap" id="cert-chapter-name">Chapter 1: Reading and Analysis of Maps</span>
+                                </div>
+
+                                <div class="cert-score-banner">
+                                    <span class="score-item">Score: <strong id="cert-score">18 / 20</strong></span>
+                                    <span class="score-item">Percentage: <strong id="cert-percentage">90%</strong></span>
+                                    <span class="score-item">Grade: <strong>Distinction (A+)</strong></span>
+                                </div>
+                            </div>
+
+                            <!-- Signatures & Metadata -->
+                            <div class="cert-footer">
+                                <div class="cert-sign-col">
+                                    <div class="sign-line"></div>
+                                    <span class="sign-title">Academic Coordinator</span>
+                                    <span class="sign-inst">Telangana SCERT</span>
+                                </div>
+
+                                <div class="cert-badge-center">
+                                    <div class="gold-wreath-seal">
+                                        <i class="fa-solid fa-ribbon"></i>
+                                        <span>VERIFIED EXCELLENCE</span>
+                                    </div>
+                                    <div class="cert-id" id="cert-unique-id">ID: TS-SCERT-C8-2026-9842</div>
+                                </div>
+
+                                <div class="cert-sign-col">
+                                    <div class="sign-line"></div>
+                                    <span class="sign-title" id="cert-date-display">Date: 27 September 2026</span>
+                                    <span class="sign-inst">Interactive Learning Platform</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- =========================================================================
+         4. GLOBAL MODALS
+         ========================================================================= -->
+
+    <!-- MODAL 1: INTERACTIVE UNDERLINED CONCEPT 3D CARD -->
+    <div id="modal-concept" class="modal-backdrop hide">
+        <div class="modal-card-3d">
+            <button class="modal-close-btn" id="btn-close-concept"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-header">
+                <span class="modal-tag">TEXTBOOK CONCEPT CARD</span>
+                <h3 id="m-concept-word">Concept Word</h3>
+            </div>
+            <div class="modal-body">
+                <div class="concept-field">
+                    <span class="field-label"><i class="fa-solid fa-book-bookmark"></i> Textbook Meaning</span>
+                    <p id="m-concept-meaning">Meaning text...</p>
+                </div>
+                <div class="concept-field">
+                    <span class="field-label"><i class="fa-solid fa-feather"></i> Simple 2-Line Explanation</span>
+                    <p id="m-concept-simple">Simple explanation...</p>
+                </div>
+                <div class="concept-field">
+                    <span class="field-label"><i class="fa-solid fa-lightbulb"></i> Real-World Example</span>
+                    <p id="m-concept-example">Example text...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-3d-cyan" id="btn-concept-ok">Got it!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: GLOBAL SEARCH ACROSS ALL 6 SUBJECTS -->
+    <div id="modal-search" class="modal-backdrop hide">
+        <div class="modal-search-card">
+            <div class="search-input-wrap">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="global-search-input" placeholder="Search subjects, chapters, topics, keywords (e.g. Al-Idrisi, Force, Cell, Euler)..." autofocus>
+                <button id="btn-close-search" class="search-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="search-results-list" class="search-results-container">
+                <div class="search-empty-state">Start typing to search across Class 8 curriculum...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: STUDENT PROFILE & PROGRESS TRACKER -->
+    <div id="modal-profile" class="modal-backdrop hide">
+        <div class="modal-profile-card">
+            <button class="modal-close-btn" id="btn-close-profile"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-header">
+                <div class="profile-avatar-lg"><i class="fa-solid fa-user-graduate"></i></div>
+                <div>
+                    <h3 id="profile-name-title">Student Profile</h3>
+                    <span class="profile-class">Telangana SCERT Class 8 • English Medium</span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="input-student-name">Your Full Name (printed on official certificates):</label>
+                    <input type="text" id="input-student-name" class="form-input" placeholder="Enter student name...">
+                </div>
+                <div class="progress-stats-grid">
+                    <div class="p-stat">
+                        <span class="p-num" id="stat-completed-topics">0</span>
+                        <span class="p-label">Completed Topics</span>
+                    </div>
+                    <div class="p-stat">
+                        <span class="p-num" id="stat-quizzes-taken">0</span>
+                        <span class="p-label">Quizzes Passed</span>
+                    </div>
+                    <div class="p-stat">
+                        <span class="p-num" id="stat-certificates-unlocked">0</span>
+                        <span class="p-label">Certificates Earned</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-3d-cyan" id="btn-save-profile">Save Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUDIO ELEMENT & SFX ENGINE (Web Audio API Synthesizer) -->
+
+    <!-- =========================================================================
+         5. SCRIPTS LOADING (OFFLINE ARCHITECTURE COMPLIANT)
+         ========================================================================= -->
+    <!-- 1. Bundled Local Three.js Library -->
+    <script src="assets/3d/three.min.js"></script>
+
+    <!-- 2. Curriculum Data Files (All 6 Subjects) -->
+    <script src="data/social-studies.js"></script>
+    <script src="data/physical-sciences.js"></script>
+    <script src="data/biology.js"></script>
+    <script src="data/mathematics.js"></script>
+    <script src="data/science.js"></script>
+    <script src="data/english.js"></script>
+
+    <!-- 3. Core JavaScript Engine -->
+    <script src="script.js"></script>
+
+    <!-- 4. Service Worker Registration for PWA Offline Support -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js').catch(err => {
+                    console.log('SW registration note:', err);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
