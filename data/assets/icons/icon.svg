@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b132b"/>
+      <stop offset="50%" stop-color="#1c2541"/>
+      <stop offset="100%" stop-color="#0b132b"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f6d365"/>
+      <stop offset="50%" stop-color="#fda085"/>
+      <stop offset="100%" stop-color="#f6d365"/>
+    </linearGradient>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe"/>
+      <stop offset="100%" stop-color="#4facfe"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  
+  <!-- Outer Rounded Rectangle -->
+  <rect width="512" height="512" rx="110" fill="url(#bgGrad)" stroke="url(#cyanGrad)" stroke-width="8"/>
+  
+  <!-- Glowing Hexagonal Outer Ring -->
+  <polygon points="256,60 416,152 416,360 256,452 96,360 96,152" fill="none" stroke="rgba(0, 242, 254, 0.3)" stroke-width="4" stroke-dasharray="8 8"/>
+  
+  <!-- 3D Open Book Symbol -->
+  <g transform="translate(136, 170)" filter="url(#glow)">
+    <!-- Left Page -->
+    <path d="M 120 180 C 70 160 20 165 0 175 L 0 45 C 20 35 70 30 120 50 Z" fill="url(#cyanGrad)" opacity="0.9"/>
+    <!-- Right Page -->
+    <path d="M 120 180 C 170 160 220 165 240 175 L 240 45 C 220 35 170 30 120 50 Z" fill="url(#cyanGrad)" opacity="0.95"/>
+    <!-- Book Spine Glow -->
+    <line x1="120" y1="50" x2="120" y2="180" stroke="#ffffff" stroke-width="4"/>
+  </g>
+  
+  <!-- Graduation Cap Floating Above Book -->
+  <g transform="translate(256, 150) scale(0.9)" filter="url(#glow)">
+    <polygon points="0,-60 110,-20 0,20 -110,-20" fill="url(#goldGrad)"/>
+    <polygon points="-70,-6 0,22 70,-6 60,35 0,55 -60,35" fill="#f39c12"/>
+    <line x1="80" y1="-8" x2="95" y2="40" stroke="#f6d365" stroke-width="4"/>
+    <circle cx="95" cy="45" r="7" fill="#f6d365"/>
+  </g>
+  
+  <!-- Orbiting Science Atom Rings -->
+  <ellipse cx="256" cy="270" rx="170" ry="60" fill="none" stroke="url(#cyanGrad)" stroke-width="3" transform="rotate(-30 256 270)" opacity="0.6"/>
+  <ellipse cx="256" cy="270" rx="170" ry="60" fill="none" stroke="url(#goldGrad)" stroke-width="3" transform="rotate(30 256 270)" opacity="0.6"/>
+  <circle cx="395" cy="190" r="7" fill="#00f2fe" filter="url(#glow)"/>
+  <circle cx="117" cy="350" r="7" fill="#fda085" filter="url(#glow)"/>
+  
+  <!-- Text Label -->
+  <text x="256" y="440" font-family="'Plus Jakarta Sans', 'Segoe UI', sans-serif" font-size="28" font-weight="800" fill="#ffffff" text-anchor="middle" letter-spacing="4">SCERT CLASS 8</text>
+</svg>
